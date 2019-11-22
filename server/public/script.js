@@ -4,6 +4,9 @@ var degree = 1800;
 var clicks = 0;
 let remainder = 0;
 
+const numOfConfetti = 85;
+const confettiBaseSize = 14;
+
 $(document).ready(function () {
     $('#spin').on('click', spin);
 });
@@ -11,7 +14,7 @@ $(document).ready(function () {
 let confetti = [];
 
 function create(i) {
-    var width = (Math.random() * 8) + 6;
+    var width = (Math.random() * 8) + confettiBaseSize;
     var height = width * 0.4;
     var colourIdx = Math.ceil(Math.random() * 3);
     var colour = "red";
@@ -28,7 +31,7 @@ function create(i) {
     const $el = $('<div class="confetti-' + i + ' ' + colour + '"></div>').css({
         "width": width + "px",
         "height": height + "px",
-        "top": -Math.random() * 100 + "%",
+        "top": -Math.random() * 200 + "%",
         "left": Math.random() * 100 + "%",
         "opacity": Math.random() + 0.5,
         "transform": "rotate(" + Math.random() * 360 + "deg)"
@@ -164,7 +167,7 @@ function fireAlert(icon) {
     //     'success'
     // )
 
-    for (var i = 0; i < 250; i++) {
+    for (var i = 0; i < numOfConfetti; i++) {
         create(i);
     }
 

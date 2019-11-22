@@ -1,0 +1,23 @@
+{
+  "name": "spin-wheel-of-client-hell",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jquery-3.3.1.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scottbromander/spin-wheel-of-client-hell.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scottbromander/spin-wheel-of-client-hell/issues"
+  },
+  "homepage": "https://github.com/scottbromander/spin-wheel-of-client-hell#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
