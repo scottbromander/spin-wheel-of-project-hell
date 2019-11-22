@@ -6,7 +6,56 @@ let remainder = 0;
 
 $(document).ready(function () {
     $('#spin').on('click', spin);
-});//DOCUMENT READY
+});
+
+let confetti = [];
+
+function create(i) {
+    var width = (Math.random() * 8) + 6;
+    var height = width * 0.4;
+    var colourIdx = Math.ceil(Math.random() * 3);
+    var colour = "red";
+    switch (colourIdx) {
+        case 1:
+            colour = "yellow";
+            break;
+        case 2:
+            colour = "blue";
+            break;
+        default:
+            colour = "red";
+    }
+    const $el = $('<div class="confetti-' + i + ' ' + colour + '"></div>').css({
+        "width": width + "px",
+        "height": height + "px",
+        "top": -Math.random() * 100 + "%",
+        "left": Math.random() * 100 + "%",
+        "opacity": Math.random() + 0.5,
+        "transform": "rotate(" + Math.random() * 360 + "deg)"
+    }).appendTo('.wrapper');
+
+    confetti.push($el);
+
+    drop(i);
+}
+
+function drop(x) {
+    $('.confetti-' + x).animate({
+        top: "100%",
+        left: "+=" + Math.random() * 15 + "%"
+    }, Math.random() * 3000 + 3000, function () {
+        reset(x);
+    });
+}
+
+function reset(x) {
+    $('.confetti-' + x).animate({
+        "top": -Math.random() * 20 + "%",
+        "left": "-=" + Math.random() * 15 + "%"
+    }, 0, function () {
+        drop(x);
+    });
+}
 
 function spin() {
     //add 1 every click
@@ -115,6 +164,10 @@ function fireAlert(icon) {
     //     'success'
     // )
 
+    for (var i = 0; i < 250; i++) {
+        create(i);
+    }
+
     let htmlForIcon = '';
     let htmlForTitle = '<strong>HERE WE GO!</strong>';
     let htmlForMessage = `<div class="sad-message"><p>Here is a disappointing message</p></div>`;
@@ -162,14 +215,21 @@ function fireAlert(icon) {
     Swal.fire({
         title: htmlForTitle,
         html: htmlForIcon,
-        showCloseButton: true,
-        showCancelButton: true,
         focusConfirm: false,
         confirmButtonText:
-            '<i class="fa fa-thumbs-up"></i> Great!',
+            `awesome...`,
         confirmButtonAriaLabel: 'Thumbs up, great!',
-        cancelButtonText:
-            '<i class="fa fa-thumbs-down"></i>',
-        cancelButtonAriaLabel: 'Thumbs down'
-    })
+        backdrop: false
+    }).then(closeModal)
+}
+
+function closeModal() {
+    console.log(confetti);
+    for (let index = 0; index < confetti.length; index++) {
+        const item = confetti[index];
+        item.remove();
+        delete confetti[index];
+    }
+    confetti = [];
+    console.log(confetti);
 }
