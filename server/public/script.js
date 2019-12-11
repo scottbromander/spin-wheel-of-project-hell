@@ -6,6 +6,7 @@ let remainder = 0;
 
 const numOfConfetti = 85;
 const confettiBaseSize = 14;
+let spinning = false;
 
 $(document).ready(function () {
     $('#spin').on('click', spin);
@@ -61,6 +62,8 @@ function reset(x) {
 }
 
 function spin() {
+    if(spinning) return;
+    spinning = true;
     //add 1 every click
     clicks++;
 
@@ -112,7 +115,6 @@ function spin() {
             var aoY = t.offset().top;
 
             if (aoY < 23.89) {
-                console.log('<<<<<<<<');
                 $('#spin').addClass('spin');
                 setTimeout(function () {
                     $('#spin').removeClass('spin');
@@ -133,9 +135,9 @@ function spin() {
 }
 
 function done() {
+    spinning = false;
     let icon = '';
     // 0, 60, 120, 180, 240, 300, 360
-    console.log(remainder);
     switch (true) {
         case remainder < 60:
             icon = 'bulb';
@@ -188,28 +190,53 @@ function fireAlert(icon) {
             break;
         case 'heart':
             // BOOK OF THE DEAD - DELETE CODE BASE!
-            htmlForTitle = `<strong>DELETE YOUR CODEBASE</strong>`
-            htmlForIcon = `<div class="sec"><span class="fa fa-book-dead"></span></div>`
+            htmlForTitle = `<strong>DELETE YOUR CODEBASE</strong>`;
+            htmlForIcon = `<div class="sec"><span class="fa fa-book-dead"></span></div>`;
+            htmlForMessage = `
+                <div class="sad-message">
+                    <p>Oh crap... SOMEBODY didn't commit their code and dropped their computer. Delete your code and start over.</p>
+                </div>
+            `;
             break;
         case 'smile':
             // BUGS IN THE CODE
             htmlForTitle = `<strong>BUGS IN THE CODE</strong>`;
             htmlForIcon = `<div class="sec"><span class="fa fa-bug"></span></div>`;
+            htmlForMessage = `
+                <div class="sad-message">
+                    <p>Dang, your 3rd party who was 'helping' with your code didn't know what they were doing. Check your code in, your instructors are about to mess it up.</p>
+                </div>
+            `;
             break;
         case 'quote':
             // REPO SHIFT
-            htmlForTitle = `<strong>CODEBASE SWAP</strong>`
-            htmlForIcon = `<div class="sec"><span class="fa fa-code-branch"></span></div>`
+            htmlForTitle = `<strong>CODEBASE SWAP</strong>`;
+            htmlForIcon = `<div class="sec"><span class="fa fa-code-branch"></span></div>`;
+            htmlForMessage = `
+                <div class="sad-message">
+                    <p>You are inheriting code from another team. Welcome to the real world kid.</p>
+                </div>
+            `;
             break;
         case 'bell':
             // CLIENT MEETING
-            htmlForTitle = `<strong>EXPLAIN YOUR CODE</strong>`
-            htmlForIcon = `<div class="sec"><span class="fa fa-phone-volume"></span></div>`
+            htmlForTitle = `<strong>EXPLAIN YOUR CODE</strong>`;
+            htmlForIcon = `<div class="sec"><span class="fa fa-phone-volume"></span></div>`;
+            htmlForMessage = `
+                <div class="sad-message">
+                    <p>Your client wants to know what the heck is going on. Your instructor is going to call you on the phone and ask you some questions about the project. </p>
+                </div>
+            `
             break;
         case 'bulb':
             // REQUIREMENTS CHANGE
             htmlForTitle = `<strong>REQUIREMENTS CHANGED</strong>`;
             htmlForIcon = `<div class="sec"><span class="fa fa-exchange-alt"></span></div>`;
+            htmlForMessage = `
+                <div class="sad-message">
+                    <p>Client called. They want something different. Scope addendum is signed, so you are shifting gears. Your instructors will tell you what is different.</p>
+                </div>
+            `
             break;
     }
 
@@ -227,12 +254,10 @@ function fireAlert(icon) {
 }
 
 function closeModal() {
-    console.log(confetti);
     for (let index = 0; index < confetti.length; index++) {
         const item = confetti[index];
         item.remove();
         delete confetti[index];
     }
     confetti = [];
-    console.log(confetti);
 }
